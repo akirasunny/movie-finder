@@ -1,0 +1,65 @@
+/********************* General *********************/
+body {
+	height: 800px;
+	font-family: 'Roboto Condensed', sans-serif;
+	color: #fff;
+	font-size: 18px;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#4a148c+0,000000+100 */
+	background: #4a148c; /* Old browsers */
+	background: -moz-linear-gradient(-45deg, #4a148c 0%, #000000 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg, #4a148c 0%,#000000 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg, #4a148c 0%,#000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4a148c', endColorstr='#000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+.container {
+	font-family: 'Roboto Condensed', sans-serif;
+	font-size: 20px;
+}
+#initial-page {
+	margin-top: 150px;
+}
+#prompt-user {
+	display: block;
+	margin-bottom: 20px;
+}
+#user-keyword-input {
+	width: 85%;
+	float: left;
+	border-radius: 0;
+}
+.btn, #user-keyword-btn {
+	float: left;
+	border-radius: 0;
+}
+.form-control {
+	border: none;
+	border-radius: 0;
+}
+.btn-primary, .btn-primary:link, .btn-primary:visited  {
+    color: #fff;
+    background-color: #7c43bd;
+    border-color: #7c43bd;
+}
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+    color: #fff;
+    background-color: #9162e4;
+    border-color: #9162e4;
+}
+.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open>.dropdown-toggle.btn-primary.focus, .open>.dropdown-toggle.btn-primary:focus, .open>.dropdown-toggle.btn-primary:hover {
+	color: #fff;
+    background-color: #9162e4;
+    border-color: #9162e4;
+}
+
+/********************* Modal *********************/
+.modal-content {
+    position: relative;
+	background-color: #4a148c;
+    background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 0;
+}
+.modal-footer {
+	border-top: 0;
+}

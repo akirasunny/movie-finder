@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+
+  <head>
+
+    <meta charset="UTF-8">
+    <title>Movie Finder</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Firebase Reference -->
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+
+    <!-- Moment.js Reference -->
+    <!-- <script src="http://momentjs.com/downloads/moment.js"></script>   -->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+    <!-- Font Awesome Reference -->
+    <script src="https://use.fontawesome.com/6807919ae4.js"></script>
+
+    <!-- fonts.google.com Reference -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+
+    <link href="assets/css/movie_stylesheet.css" rel="stylesheet" type="text/css" />
+
+  </head>
+
+  <body>
+
+
+    <div class="container">
+
+      <!-- Enter Keywords -->
+      <div id="initial-page" class="row">
+
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+
+          <form>
+              <div class="form-group">
+                <label for="user-prompt-input" id="prompt-user" style="color:#eee;">Prompt User</label>
+                <input class="form-control" id="user-keyword-input" type="text">
+                <button class="btn btn-primary" id="user-keyword-btn" type="submit">GO</button>
+              </div>
+          </form>
+
+        </div>
+        <div class="col-lg-1"></div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Sign In modal -->
+    <div id="signInModal" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <!--
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Modal title</h4>
+          </div>
+          -->
+          <div class="modal-body">
+            <form role="form">
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" placeholder="Enter Username">
+              </div>
+              <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" class="form-control" id="location" placeholder="Enter Location">
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary">Sign In</button>
+          </div>
+
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- JavaScript -->
+    <script src="assets/javascript/movie.js"></script>
+
+  </body>
+
+</html>
