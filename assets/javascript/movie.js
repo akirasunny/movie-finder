@@ -1,4 +1,4 @@
-// firebase
+// firebase & globals
 
 var config = {
 	apiKey: "AIzaSyAuUd9yt7ACd_Joi716u_UxYNLtf9oJMbc",
@@ -12,13 +12,26 @@ var config = {
 
 var database = firebase.database();
 var userkey;
+var username;
+var localkeywords;
 
-// globals
+// functions
+function capitalize(a) {
+	var temp = a.split(" ");
+	var temp1 = "";
+	for (i = 0; i < temp.length; i++) {
+		temp1 += temp[i].substring(0, 1).toUpperCase() + temp[i].substring(1, ) + " ";
+	}
+	var final = temp1.trim();
+	return final;
+}
+
 function signin() {
-	var name = $("#username").val().trim();
-	var location = $("#location").val().trim();
+	username = capitalize($("#username").val().trim());
+	console.log(username);
+	var location = capitalize($("#location").val().trim());
 	database.ref().push({
-		name: name,
+		name: username,
 		location: location
 	})
 	$("#signInModal").modal("hide");
@@ -54,7 +67,8 @@ function keyword() {
 		}
 	console.log(array);
 	console.log(poster);
-	return array, poster;
+	var result = [array, poster];
+	return result;
 	})
 }
 
@@ -76,6 +90,12 @@ $(document).ready(function() {
 $("#user-keyword-btn").on("click", function(event){
 	// prevent page from reloading when clicking on submit button
 	event.preventDefault();
-
 });
+
 $("#signin").click(signin);
+database.ref().on("child_added", function(child, preChildKey) {
+	var child = child.val();
+	if (child.name === username) {
+		console.log("I'm working!");
+	}
+})
