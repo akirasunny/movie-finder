@@ -51,9 +51,8 @@ function keyword() {
 		url: queryURL,
 		method: "GET"
 	}).done(function(response) {
-		var movies = response.Search; console.log("here respnse", response);
+		var movies = response.Search; 
 		var array = [];
-		//var poster = [];
 		for (var i = 0; i < movies.length; i++) {
 			var poster = [];
 			//secondary ajax search uses titles from first search to get more info about each movie. 
@@ -73,10 +72,8 @@ function keyword() {
 		}
 
 	console.log(array);
-	console.log("length now???", poster.length);
+	console.log(poster);
 	var result = [array, poster];
-	console.log(result.length);
-	
 
 	return result;
 	})
@@ -119,7 +116,6 @@ function displayPosters(posterArray) {
 
 // this will determine if this is a first time or returning user
 $("#user-keyword-btn").click(keyword);
-//console.log(something);
 	database.ref().on("value", function(snap) {
 		userkey = snap.key;
 })
