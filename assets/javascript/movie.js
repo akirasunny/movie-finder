@@ -13,10 +13,13 @@ var config = {
 var database = firebase.database();
 var userkey;
 var username;
+var zipcode;
 var localkeywords;
 
 
 // functions
+
+// format input
 function capitalize(a) {
 	var temp = a.split(" ");
 	var temp1 = "";
@@ -27,13 +30,16 @@ function capitalize(a) {
 	return final;
 }
 
+
+// database related
 function signin() {
 	username = capitalize($("#username").val().trim());
 	console.log(username);
-	var location = capitalize($("#location").val().trim());
+	zipcode = $("#zip-code").val().trim();
+	console.log(zipcode);
 	database.ref().push({
 		name: username,
-		location: location
+		zipcode: zipcode
 
 	})
 	$("#signInModal").modal("hide");
@@ -82,6 +88,38 @@ function keyword(event) {
 	})
 }
 
+function zip() {
+	var apikey = "ac9ryrxhdhyueujdqgayzn4f";
+	var baseUrl = "http://data.tmsapi.com/v1.1";
+	var showtimesUrl = baseUrl + '/movies/showings';
+	var zipCode = zipcode;
+	var d = new Date();
+	var today = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
+	$.ajax({
+		url: showtimesUrl,
+		data: { startDate: today,
+		zip: zipCode,
+		jsonp: "dataHandler",
+		api_key: apikey
+		},
+		dataType: "jsonp",
+	})
+}
+
+function dataHandler(data) {
+	var movies = data.hits;
+	var title = [];
+	$.each(data, function(index, movie) {
+    	var movietitle = movie.title;
+		if (movie.ratings) {
+			movietitle += ", Rating: "+ movie.ratings[0].code;
+		}
+	title.push(movietitle);
+	});
+	console.log(title);
+  }
+
+// html
 // display posters on main page
 function displayPosters(posterArray) { 
 
@@ -115,8 +153,8 @@ function displayPosters(posterArray) {
 	}
 }
 
-//main 
 
+//main 
 // this will determine if this is a first time or returning user
 $(document).ready(function() {
 	database.ref().on("value", function(snap) {
@@ -131,6 +169,7 @@ $(document).ready(function() {
 				if (key === localStorage.userkey) {
 					isexist = true;
 					username = snap.val().name;
+					zipcode = snap.val().zipcode;
 					$("#signInModal").modal('hide');
 					// localkeywords = snap.val().whitelist;
 					// var index = Math.floor(Math.random() * localkeywords.length);
