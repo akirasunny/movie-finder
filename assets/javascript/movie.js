@@ -38,6 +38,7 @@ function signin() {
 	$("#signInModal").modal("hide");
 	database.ref().on("child_added", function(snap, prekey) {
 		userkey = snap.key;
+		localStorage.userkey = userkey;
 	})
 	console.log(userkey);
 }
@@ -130,9 +131,9 @@ $(document).ready(function() {
 					isexist = true;
 					username = snap.val().name;
 					$("#signInModal").modal('hide');
-					localkeywords = snap.val().whitelist;
-					var index = Math.floor(Math.random() * localkeywords.length);
-					keyword(localkeywords[index]);
+					// localkeywords = snap.val().whitelist;
+					// var index = Math.floor(Math.random() * localkeywords.length);
+					// keyword(localkeywords[index]);
 				}
 				else {
 					isexist = false;
