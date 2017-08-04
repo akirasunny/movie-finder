@@ -34,6 +34,7 @@ function signin() {
 	database.ref().push({
 		name: username,
 		location: location
+
 	})
 	$("#signInModal").modal("hide");
 	database.ref().on("child_added", function(snap, prekey) {
