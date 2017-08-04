@@ -42,7 +42,8 @@ function signin() {
 	console.log(userkey);
 }
 
-function keyword() {
+function keyword(event) {
+	event.preventDefault();
 	var keyword = $("#user-keyword-input").val().trim();
 	console.log(keyword);
 	var queryURL = "http://www.omdbapi.com/?s=" + keyword + "&y=&plot=short&apikey=40e9cece";
@@ -115,33 +116,34 @@ function displayPosters(posterArray) {
 //main 
 
 // this will determine if this is a first time or returning user
-$("#user-keyword-btn").click(keyword);
-	database.ref().on("value", function(snap) {
-		userkey = snap.key;
-})
-
 $(document).ready(function() {
+	database.ref().on("value", function(snap) {
+		var checker = snap.val();
+		if (checker === null) {
+			isexist = false;
+			$("#signInModal").modal('show');
+		}
+		else if (checker !== null) {
+			database.ref().on("child_added", function(snap, prekey) {
+				var key = snap.key;
+				if (key === localStorage.userkey) {
+					isexist = true;
+					username = snap.val().name;
+					$("#signInModal").modal('hide');
+					localkeywords = snap.val().whitelist;
+					var index = Math.floor(Math.random() * localkeywords.length);
+					keyword(localkeywords[index]);
+				}
+				else {
+					isexist = false;
+					$("#signInModal").modal('show');
+				}
+			})
+		}
+	})
 
-	//instructions and submit button
-	$("#instructions").hide();
-	$("#submitPreferences").hide();
-
-	// show modal on page load
-	if (userkey === undefined) {
-		$("#signInModal").modal('show');
-	}
-});
-
-// submit button for user keywords
-$("#user-keyword-btn").on("click", function(event){
-	// prevent page from reloading when clicking on submit button
-	event.preventDefault();
-});
+})
 
 $("#signin").click(signin);
-database.ref().on("child_added", function(child, preChildKey) {
-	var child = child.val();
-	if (child.name === username) {
-		console.log("I'm working!");
-	}
-})
+
+$("#user-keyword-btn").click(keyword);
