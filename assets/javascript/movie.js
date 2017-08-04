@@ -15,6 +15,7 @@ var userkey;
 var username;
 var localkeywords;
 
+
 // functions
 function capitalize(a) {
 	var temp = a.split(" ");
@@ -50,7 +51,7 @@ function keyword() {
 		url: queryURL,
 		method: "GET"
 	}).done(function(response) {
-		var movies = response.Search;
+		var movies = response.Search; 
 		var array = [];
 		for (var i = 0; i < movies.length; i++) {
 			var poster = [];
@@ -63,22 +64,67 @@ function keyword() {
 				subarray.push(response.Genre, response.Director, response.Rated, response.imdbRating);
 				poster.push(response.Poster);
 				array.push(subarray);
+
+				if (movies.length === poster.length){
+					displayPosters(poster);
+				}
 			});
 		}
+
 	console.log(array);
 	console.log(poster);
 	var result = [array, poster];
+
 	return result;
 	})
 }
 
-//main
+// display posters on main page
+function displayPosters(posterArray) { 
+
+	// move search bar up
+	$("#initial-page").css("margin-top", "25px");
+
+	//instructions and submit button
+	$("#instructions").show();
+	$("#submitPreferences").show();
+
+	$("#poster").empty();
+
+	var rows = 0;
+
+	// loop through and dynamically place posters
+	for (var i = 0; i < posterArray.length; i++) {
+
+
+		// every 4 posters are placed in one row
+		if (rows === i){ 
+
+			var moviePoster = $("<div>").attr("class", "row poster-row");
+			//moviePoster.prepend($("<div>").attr("class", "row"));
+			rows += 4;	
+		}
+
+    	moviePoster.append($("<div id=\"poster"+i+"\" class=\"col-lg-2\"><img class=\"img-responsive\" src="+posterArray[i]+"><i class=\"fa fa-thumbs-o-up fa-lg goodMovie\" aria-hidden=\"true\"></i><i class=\"fa fa-thumbs-o-down fa-lg badMovie\" aria-hidden=\"true\"></i></div>"));
+    	moviePoster.append($("<div>").attr("class", "col-lg-1"));
+    	$("#poster").append(moviePoster);
+
+	}
+}
+
+//main 
+
+// this will determine if this is a first time or returning user
 $("#user-keyword-btn").click(keyword);
 	database.ref().on("value", function(snap) {
 		userkey = snap.key;
 })
 
 $(document).ready(function() {
+
+	//instructions and submit button
+	$("#instructions").hide();
+	$("#submitPreferences").hide();
 
 	// show modal on page load
 	if (userkey === undefined) {

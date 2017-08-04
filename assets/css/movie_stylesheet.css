@@ -50,6 +50,41 @@ body {
     background-color: #9162e4;
     border-color: #9162e4;
 }
+img {
+	
+}
+#instructions {
+	margin-top: 25px;
+}
+#submitPreferences {
+	float: right;
+	margin-top: 25px;
+	padding: 25px;
+	font-size: 20px;
+}
+.poster-row {
+	margin: 30px 0;
+}
+.col-lg-2, .col-lg-10 {
+	padding-right: 0;
+    padding-left: 0;
+}
+
+.fa { 
+	width: 50%;
+	padding: 15px 0;
+	text-align: center;
+}
+.fa, .fa:link, .fa:visited, #submitPreferences, #submitPreferences:link, #submitPreferences:visited  {
+	color: #fff;
+    background-color: #7c43bd;
+    border-color: #7c43bd;
+}
+.fa:hover, .fa:active, .fa:focus, #submitPreferences:hover, #submitPreferences:active, #submitPreferences:focus {
+	color: #fff;
+    background-color: #9162e4;
+    border-color: #9162e4;
+}
 
 /********************* Modal *********************/
 .modal-content {
