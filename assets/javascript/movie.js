@@ -1,18 +1,12 @@
 // firebase & globals
 
 var config = {
-	// apiKey: "AIzaSyAuUd9yt7ACd_Joi716u_UxYNLtf9oJMbc",
-	// authDomain: "movie-finder-adc1a.firebaseapp.com",
-	// databaseURL: "https://movie-finder-adc1a.firebaseio.com",
-	// projectId: "movie-finder-adc1a",
-	// storageBucket: "",
-	// messagingSenderId: "599211651039"
-	apiKey: "AIzaSyAuQk7yLhsAeThGmb-YUuGvEKauOB0ZkRs",
-    authDomain: "my-awesome-project-2-1d4f4.firebaseapp.com",
-    databaseURL: "https://my-awesome-project-2-1d4f4.firebaseio.com",
-    projectId: "my-awesome-project-2-1d4f4",
-    storageBucket: "my-awesome-project-2-1d4f4.appspot.com",
-    messagingSenderId: "32170178759"
+	apiKey: "AIzaSyAuUd9yt7ACd_Joi716u_UxYNLtf9oJMbc",
+	authDomain: "movie-finder-adc1a.firebaseapp.com",
+	databaseURL: "https://movie-finder-adc1a.firebaseio.com",
+	projectId: "movie-finder-adc1a",
+	storageBucket: "",
+	messagingSenderId: "599211651039"
 };
 	firebase.initializeApp(config);
 
