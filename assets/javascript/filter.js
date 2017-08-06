@@ -7,7 +7,7 @@ var compatObject =
 };
 
 //this is a test array modeled after the real arrays we will be receiving from ajax...
-var array = ["Action, Romance, Adventure, Action Movie", "James Cameron, Johnny Depp"];
+var array = ["Action, Romance, Adventure, Action Movie", "James Cameron, Johnny Depp", "Sci-Fi", "pg-13", "8.5"];
 
 
 
@@ -16,13 +16,16 @@ var array = ["Action, Romance, Adventure, Action Movie", "James Cameron, Johnny 
 //["action", "romance", adventure]
 //if an element has a space in the name it will add an underscore
 //[James Cameron] => [James_Cameron].
-//this is necessary to seperate individual keywords. 
+//this is necessary to seperate individual keywords.
+//I added a new for loop that make formattedArray all lower case for consistency. 
 function format(newArray)
 {
 	formattedArray = [];
 	for (var i = 0; i < newArray.length; i++) 
 	{
 		var space = new RegExp(" ");
+		var dash = new RegExp("-");
+		var period = new RegExp(".");
 		slicedArray = newArray.slice(i,i+1);
 		var newString = slicedArray[0];
 		var wordArray = newString.split(", ");
@@ -30,15 +33,28 @@ function format(newArray)
 		{
 			if(space.test(wordArray[j]))
 			{
-				console.log(wordArray[j]);
 				var underScore = wordArray[j].replace(/ /g, "_");
 				formattedArray = formattedArray.concat(underScore);
+			}
+			else if(dash.test(wordArray[j]))
+			{
+				var noDash = wordArray[j].replace(/-/g, "_");
+				formattedArray = formattedArray.concat(noDash);
+			}
+			else if(period.test(wordArray[j]))
+			{
+				var noPeriod = wordArray[j].replace(/\./g, "_");
+				formattedArray = formattedArray.concat(noPeriod);
 			}
 			else
 			{
 				formattedArray = formattedArray.concat(wordArray[j]);
 			}
 		}
+	}
+	for (var i = 0; i < formattedArray.length; i++) 
+	{
+		formattedArray[i] = formattedArray[i].toLowerCase();
 	}
 	return formattedArray;
 }	
@@ -79,7 +95,7 @@ function makeScore(newArray)
 	{
 		if(compatObject[newArray[i]] !== undefined)
 		{
-			totalScore += compatObject[newArray[i]];
+			totalScore += parseInt(compatObject[newArray[i]]);
 		}
 	}	
 	return totalScore;
