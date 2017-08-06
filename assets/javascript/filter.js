@@ -103,5 +103,47 @@ function filter(newArray)
 
 //TO DO 
 
-//write function that can change scores of movies and update database. 
+//function that can change scores of movies and update database
+//upvote / downvote
+function changeScores(movieArray, vote)
+{
+	if (vote === "good")
+	{
+		addToObject(movieArray);
+
+		// go through compatObject and if keyword is found as a key, add 1 to the value
+		$.each(compatObject, function(key, value) {
+
+			for(var i = 0; i < movieArray.length; i++){
+				if(key === movieArray[i])
+				{ 
+					value++;
+					compatObject[movieArray[i]] = value;
+		  		}
+		  	}
+		  //console.log(compatObject);
+		});
+	}
+	if (vote === "bad")
+	{
+		addToObject(movieArray);
+
+		// go through compatObject and if keyword is found as a key, minus 1 from the value
+		$.each(compatObject, function(key, value) {
+
+			for(var i = 0; i < movieArray.length; i++){
+				if(key === movieArray[i])
+				{ 
+					value--;
+					compatObject[movieArray[i]] = value;
+		  		}
+		  	}
+		  //console.log(compatObject);
+		});
+	}
+
+}
+
+
+
 //incorporate filter into the rest of code. s
