@@ -75,7 +75,7 @@ function keyword(event) {
 				array.push(subarray);
 
 				if (movies.length === poster.length){
-					displayPosters(poster);
+					displayPosters(poster, array);
 				}
 			});
 		}
@@ -119,9 +119,10 @@ function dataHandler(data) {
 	console.log(title);
   }
 
-// html
+
 // display posters on main page
-function displayPosters(posterArray) { 
+// send voteup/votedown information to ??? function
+function displayPosters(posterArray, movieInfo) { 
 
 	// move search bar up
 	$("#initial-page").css("margin-top", "25px");
@@ -146,11 +147,37 @@ function displayPosters(posterArray) {
 			rows += 4;	
 		}
 
-    	moviePoster.append($("<div id=\"poster"+i+"\" class=\"col-lg-2\"><img class=\"img-responsive\" src="+posterArray[i]+"><i class=\"fa fa-thumbs-o-up fa-lg goodMovie\" aria-hidden=\"true\"></i><i class=\"fa fa-thumbs-o-down fa-lg badMovie\" aria-hidden=\"true\"></i></div>"));
+    	moviePoster.append($("<div id=\"poster"+i+"\" class=\"col-lg-2\" value="+i+"><img class=\"img-responsive\" src="+posterArray[i]+"><i class=\"fa fa-thumbs-o-up fa-lg goodMovie\" aria-hidden=\"true\" value="+i+"></i><i class=\"fa fa-thumbs-o-down fa-lg badMovie\" aria-hidden=\"true\" value="+i+"></i></div>"));
     	moviePoster.append($("<div>").attr("class", "col-lg-1"));
     	$("#poster").append(moviePoster);
 
 	}
+	//$("#user-keyword-btn").click(keyword);
+	$(".goodMovie").on("click", function() {
+
+		// get position in the array of poster clicked
+		var poster_array_value = $(this).attr("value");
+
+		//console.log("clicked on", $(this).attr("value"));
+		//console.log(movieInfo[poster_array_value]);
+		var good_movie_formatted = format(movieInfo[poster_array_value]);
+		//console.log("good movie ", good_movie_formatted);
+		changeScores(good_movie_formatted, "good");
+
+	});
+	$(".badMovie").on("click", function() {
+
+		// get position in the array of poster clicked
+		var poster_array_value = $(this).attr("value");
+		console.log(poster_array_value);
+
+		console.log("clicked on", $(this).attr("value"));
+		console.log(movieInfo[poster_array_value]);
+		var bad_movie_formatted = format(movieInfo[poster_array_value]);
+		//console.log("bad movie ", good_movie_formatted);
+		changeScores(bad_movie_formatted, "bad");
+
+	});
 }
 
 
@@ -182,6 +209,9 @@ $(document).ready(function() {
 			})
 		}
 	})
+	//instructions and submit button
+	$("#instructions").hide();
+	$("#submitPreferences").hide();
 
 })
 
