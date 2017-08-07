@@ -13,7 +13,7 @@ var array = ["Action, Romance, Adventure, Action Movie", "James Cameron, Johnny 
 
 //this function will format any array into the proper format.
 //if it is a list like ["action, romance, adventure"] it will become 
-//["action", "romance", adventure]
+//["action", "romance", "adventure"]
 //if an element has a space in the name it will add an underscore
 //[James Cameron] => [James_Cameron].
 //this is necessary to seperate individual keywords.
@@ -104,17 +104,30 @@ function makeScore(newArray)
 //this function is fairly straight forward it just looks at the score of the movie.
 //the intended implementation is to not let a poster be displayed on the page, if the score is too low. 
 //It is bare bones right now because I'm not sure exactly how posters/movies are being displayed on page. 
-function filter(newArray)
+function filter(movieInfo, posterArray)
 {
-	var newScore = makeScore(newArray);
-	if(newScore >= 0)
+	var newPosterArray = [];
+	console.log("before for loop:"+posterArray);
+
+	for (var i = 0; i < posterArray.length; i++) 
 	{
-		//do not filter out movie.
+		formattedMovieInfo = format(movieInfo[i]);
+		//console.log("formattedMovieInfo: "+ formattedMovieInfo);
+		newScore = makeScore(formattedMovieInfo);
+		//console.log("newScore: "+ newScore);
+		if(newScore < 0)
+		{
+			console.log("I got called");
+			posterArray = posterArray.splice(i,1);
+		}
+		else
+		{
+			console.log("yeah");
+			console.log("after: " + posterArray);
+		}
 	}
-	else
-	{
-		//filter movie
-	}
+	
+	return newPosterArray;
 }
 
 //TO DO 
