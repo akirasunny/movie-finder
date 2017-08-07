@@ -12,10 +12,17 @@ var config = {
 
 var database = firebase.database();
 
+
+//an array that stores movie properties like genre, director etc. 
+var infoArray = [];
+//poster is an array that stores poster url's
+var posterArray = [];
+
 var isexist = false;
 var zipcode;
 var username;
 var userkey;
+
 
 // functions
 
@@ -78,42 +85,48 @@ function logout() {
 	location.reload();
 }
 
-function keyword(event) {
+
+
+function keyword(event) 
+{
 	event.preventDefault();
 	var keyword = $("#user-keyword-input").val().trim();
-	console.log(keyword);
+	//console.log(keyword);
 	var queryURL = "http://www.omdbapi.com/?s=" + keyword + "&y=&plot=short&apikey=40e9cece";
 
 	$.ajax({
 		url: queryURL,
 		method: "GET"
-	}).done(function(response) {
-		var movies = response.Search; 
-		var array = [];
-		for (var i = 0; i < movies.length; i++) {
-			var poster = [];
-			//secondary ajax search uses titles from first search to get more info about each movie. 
-			$.ajax({
-				url: "http://www.omdbapi.com/?t=" + movies[i].Title + "&y=&plot=short&apikey=40e9cece",
-				method: "GET"
-			}).done(function(response) {
-				var subarray = [];
-				subarray.push(response.Genre, response.Director, response.Rated, response.imdbRating);
-				poster.push(response.Poster);
-				array.push(subarray);
+	}).done(function(response)
+	{
+		var movies = response.Search;
+		//console.log(movies);
+		secondAjax(movies,0);
+	});	
+}
 
-				if (movies.length === poster.length){
-					displayPosters(poster, array);
-				}
-			});
-		}
+function secondAjax(movies,i,poster = [],info = [])
+{
+	if(i === movies.length)
+	{
+		console.log(poster);
+		console.log(info);
+		displayPosters(poster,info);
+		return;
+	}
 
-	console.log(array);
-	console.log(poster);
-	var result = [array, poster];
-
-	return result;
-	})
+	var title = movies[i].Title;
+	$.ajax({
+		url: "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=40e9cece",
+		method: "GET"
+	}).done(function(response)
+	{
+		var subarray= [];
+		subarray.push(response.Genre, response.Director, response.Rated, response.imdbRating);
+		posterArray.push(response.Poster);
+		infoArray.push(subarray);
+		secondAjax(movies,++i,posterArray,infoArray);
+	});
 }
 
 // grab movies around 5 miles of user's zipcode
@@ -229,7 +242,11 @@ function displayRecPosters(array) {
 // display posters on main page
 // send voteup/votedown information to ??? function
 function displayPosters(posterArray, movieInfo) { 
-
+	compatObject = {
+		action: 0,
+		sci_fi: 0,
+		george_lucas: 0
+	};
 	// move search bar up
 	$("#initial-page").css("margin-top", "25px");
 
@@ -240,6 +257,8 @@ function displayPosters(posterArray, movieInfo) {
 	$("#poster").empty();
 
 	var rows = 0;
+
+	//var newPosterArray = filter(movieInfo,posterArray);
 
 	// loop through and dynamically place posters
 	for (var i = 0; i < posterArray.length; i++) {
@@ -287,7 +306,7 @@ function displayPosters(posterArray, movieInfo) {
 }
 
 //main 
-// this will determine if this is a first time or returning user
+ //this will determine if this is a first time or returning user
 $(document).ready(function() {
 	database.ref().on("value", function(snap) {
 		var checker = snap.val();
@@ -325,4 +344,4 @@ $(document).ready(function() {
 
 $("#signin").click(signin);
 
-$("#user-keyword-btn").click(keyword);
+$("#user-keyword-btn").click(keyword);//
