@@ -11,10 +11,6 @@ var config = {
 	firebase.initializeApp(config);
 
 var database = firebase.database();
-var userkey;
-var username;
-var zipcode;
-var localkeywords;
 
 
 // functions
@@ -33,9 +29,9 @@ function capitalize(a) {
 
 // database related
 function signin() {
-	username = capitalize($("#username").val().trim());
+	var username = capitalize($("#username").val().trim());
 	console.log(username);
-	zipcode = $("#zip-code").val().trim();
+	var zipcode = $("#zip-code").val().trim();
 	localStorage.zipcode = zipcode;
 	localStorage.username = username;
 	console.log(localStorage.zipcode);
@@ -46,11 +42,10 @@ function signin() {
 	})
 	$("#signInModal").modal("hide");
 	database.ref().on("child_added", function(snap) {
-		userkey = snap.key;
+		var userkey = snap.key;
 		localStorage.userkey = userkey;
 	})
 	isexist = true;
-	console.log(userkey);
 }
 
 function keyword(event) {
@@ -199,11 +194,10 @@ $(document).ready(function() {
 		else if (checker !== null) {
 			if (localexists !== undefined) {
 				database.ref("/" + localStorage.userkey).once("value", function(snap) {
-					var name = snap.name;
-					if (name === username) {
+					var name = snap.val().name;
+					console.log(name);
+					if (name === localStorage.username) {
 						isexist = true;
-						username = snap.val().name;
-						zipcode = snap.val().zipcode;
 						$("#signInModal").modal('hide');
 					}
 					else {
