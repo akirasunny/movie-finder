@@ -12,10 +12,17 @@ var config = {
 
 var database = firebase.database();
 
+
 //an array that stores movie properties like genre, director etc. 
 var infoArray = [];
 //poster is an array that stores poster url's
 var posterArray = [];
+
+var isexist = false;
+var zipcode;
+var username;
+var userkey;
+
 
 // functions
 
@@ -38,18 +45,44 @@ function signin() {
 	var zipcode = $("#zip-code").val().trim();
 	localStorage.zipcode = zipcode;
 	localStorage.username = username;
-	console.log(localStorage.zipcode);
-	database.ref().push({
-		name: username,
-		zipcode: zipcode
 
+	database.ref().once("value", function(snap) {
+		var snappy = snap.val();
+		var keys = Object.keys(snappy);
+		var counter = 0;
+		for (i = 0; i < keys.length; i++) {
+			console.log(snappy[keys[i]]);
+			console.log(keys[i]);
+			if (snappy[keys[i]].name === username) {
+				localStorage.userkey = keys[i];
+				userkey = keys[i];
+				isexist = true;
+				counter++;
+				$("#signInModal").modal("hide");
+				break;
+			}
+		}
+
+		if (counter === 0 && isexist === false) {
+			database.ref().push({
+				name: username,
+				zipcode: zipcode
+			})
+			database.ref().once("child_added", function(snap) {
+				if (username === snap.val().name) {
+					localStorage.userkey = snap.key;
+					userkey = snap.key;
+				}
+			})
+			isexist = true;
+			$("#signInModal").modal("hide");
+		}
 	})
-	$("#signInModal").modal("hide");
-	database.ref().on("child_added", function(snap) {
-		var userkey = snap.key;
-		localStorage.userkey = userkey;
-	})
-	isexist = true;
+}
+
+function logout() {
+	localStorage.removeItem("userkey", "username", "zipcode");
+	location.reload();
 }
 
 
@@ -96,6 +129,7 @@ function secondAjax(movies,i,poster = [],info = [])
 	});
 }
 
+// grab movies around 5 miles of user's zipcode
 function zip() {
 	var apikey = "ac9ryrxhdhyueujdqgayzn4f";
 	var baseUrl = "http://data.tmsapi.com/v1.1";
@@ -111,22 +145,99 @@ function zip() {
 		api_key: apikey
 		},
 		dataType: "jsonp",
-	})
+	}).done()
 }
 
 function dataHandler(data) {
 	var movies = data.hits;
 	var title = [];
-	$.each(data, function(index, movie) {
-    	var movietitle = movie.title;
-		if (movie.ratings) {
-			movietitle += ", Rating: "+ movie.ratings[0].code;
-		}
-	title.push(movietitle);
-	});
-	console.log(title);
-  }
+	var rating = [];
+	var genre = [];
+	var description = [];
+	var director = [];
+	var topcast = [];
+	var showtime = [];
+	var theatreid = [];
+	var theatre = [];
 
+	$.each(data, function(index, movie) {
+		console.log(movie);
+		title.push(movie.title);
+
+		if (movie.ratings) {
+			rating.push(movie.ratings[0].code);
+		}
+		else if (!movie.ratings) {
+			rating.push("N/A");
+		}
+
+		var temp1 = "";
+		if (movie.genres !== undefined) {
+			for (i = 0; i < movie.genres.length; i++) {
+				temp1 += movie.genres[i] + ", ";
+				if (i === movie.genres.length - 1) {
+					temp1 += movie.genres[i];
+				}
+			}
+			genre.push(temp1);
+		}
+		else {
+			genre.push("undefined");
+			}
+		
+
+		description.push(movie.shortDescription);
+
+		if (movie.directors !== undefined) {
+			director.push(movie.directors[0]);
+		}
+		else {
+			director.push("undefined");
+		}
+
+		var temp2 = "";
+		if (movie.topCast !== undefined) {
+			for (j = 0; j < movie.topCast.length; j++) {
+				temp2 += movie.topCast[j] + ", ";
+				if (j === movie.topCast.length - 1) {
+					temp2 += movie.topCast[j];
+				}
+			}
+			topcast.push(temp2);
+
+		}
+		else {
+			topcast.push("undefined");
+		}
+
+		temp3 = "";
+		temp4 = "";
+		temp5 = "";
+		if (movie.showtimes !== undefined) {
+			for (i = 0; i < movie.showtimes.length; i++) {
+				temp3 += movie.showtimes[i].dateTime + ", ";
+				temp4 += movie.showtimes[i].theatre.id + ", "
+				temp5 += movie.showtimes[i].theatre.name + ", "
+				if (i === movie.showtimes.length - 1) {
+					temp3 += movie.showtimes[i];
+					temp4 += movie.showtimes[i].theatre.id;
+					temp5 += movie.showtimes[i].theatre.name
+				}
+			}
+			showtime.push(temp3);
+			theatreid.push(temp4);
+			theatre.push(temp5);
+		}
+	});
+	var array = [title, rating, genre, description, director, topcast, showtime, theatreid, theatre];
+	if (title.length === 25) {
+		displayRecPosters(array);
+	}
+}
+
+function displayRecPosters(array) {
+	console.log(array);
+}
 
 // display posters on main page
 // send voteup/votedown information to ??? function
@@ -194,26 +305,25 @@ function displayPosters(posterArray, movieInfo) {
 	});
 }
 
-
 //main 
  //this will determine if this is a first time or returning user
 $(document).ready(function() {
 	database.ref().on("value", function(snap) {
 		var checker = snap.val();
-		var localexists = localStorage.userkey;
-		console.log(checker);
-		console.log(localexists);
+		userkey = localStorage.userkey;
 		if (checker === null) {
 			isexist = false;
 			$("#signInModal").modal('show');
 		}
 		else if (checker !== null) {
-			if (localexists !== undefined) {
+			if (userkey !== undefined) {
 				database.ref("/" + localStorage.userkey).once("value", function(snap) {
 					var name = snap.val().name;
 					console.log(name);
 					if (name === localStorage.username) {
 						isexist = true;
+						zipcode = snap.val().zipcode;
+						username = snap.val().name;
 						$("#signInModal").modal('hide');
 					}
 					else {
