@@ -60,8 +60,8 @@ function keyword(event) {
 	}).done(function(response) {
 		var movies = response.Search; 
 		var array = [];
+		var poster = [];
 		for (var i = 0; i < movies.length; i++) {
-			var poster = [];
 			//secondary ajax search uses titles from first search to get more info about each movie. 
 			$.ajax({
 				url: "http://www.omdbapi.com/?t=" + movies[i].Title + "&y=&plot=short&apikey=40e9cece",
@@ -71,19 +71,19 @@ function keyword(event) {
 				subarray.push(response.Genre, response.Director, response.Rated, response.imdbRating);
 				poster.push(response.Poster);
 				array.push(subarray);
-
-				if (movies.length === poster.length){
-					displayPosters(poster, array);
-				}
+				console.log("in done: "+ subarray);
 			});
 		}
-
-	console.log(array);
+	console.log("in for loop: "+poster);
+	displayPosters(poster, array);
 	console.log(poster);
+	console.log("outside: "+subarray);
+	//console.log(poster);
 	var result = [array, poster];
 
-	return result;
-	})
+	return(result);
+
+	});
 }
 
 function zip() {
@@ -121,6 +121,13 @@ function dataHandler(data) {
 // display posters on main page
 // send voteup/votedown information to ??? function
 function displayPosters(posterArray, movieInfo) { 
+	console.log("posterArray: "+ posterArray);
+	//test code begins here
+	compatObject = {
+		action: 0,
+		sci_fi: 0,
+		george_lucas: 0
+	};
 
 	// move search bar up
 	$("#initial-page").css("margin-top", "25px");
@@ -132,11 +139,13 @@ function displayPosters(posterArray, movieInfo) {
 	$("#poster").empty();
 
 	var rows = 0;
-
+	//console.log("poster array: "+posterArray);
 	// loop through and dynamically place posters
-	for (var i = 0; i < posterArray.length; i++) {
+	var newPosterArray = filter(movieInfo,posterArray);
+	console.log("length"+posterArray.length);
 
-
+	for (var i = 0; i < newPosterArray.length; i++) {
+		
 		// every 4 posters are placed in one row
 		if (rows === i){ 
 
