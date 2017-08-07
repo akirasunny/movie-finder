@@ -143,8 +143,12 @@ function dataHandler(data) {
 	var description = [];
 	var director = [];
 	var topcast = [];
+	var showtime = [];
+	var theatreid = [];
+	var theatre = [];
 
 	$.each(data, function(index, movie) {
+		console.log(movie);
 		title.push(movie.title);
 
 		if (movie.ratings) {
@@ -163,7 +167,6 @@ function dataHandler(data) {
 				}
 			}
 			genre.push(temp1);
-			// genre = genre.substring(0, genre.length - 2);
 		}
 		else {
 			genre.push("undefined");
@@ -188,14 +191,32 @@ function dataHandler(data) {
 				}
 			}
 			topcast.push(temp2);
-			// topcast = topcast.substring(0, genre.length - 2);
+
 		}
 		else {
 			topcast.push("undefined");
 		}
 
+		temp3 = "";
+		temp4 = "";
+		temp5 = "";
+		if (movie.showtimes !== undefined) {
+			for (i = 0; i < movie.showtimes.length; i++) {
+				temp3 += movie.showtimes[i].dateTime + ", ";
+				temp4 += movie.showtimes[i].theatre.id + ", "
+				temp5 += movie.showtimes[i].theatre.name + ", "
+				if (i === movie.showtimes.length - 1) {
+					temp3 += movie.showtimes[i];
+					temp4 += movie.showtimes[i].theatre.id;
+					temp5 += movie.showtimes[i].theatre.name
+				}
+			}
+			showtime.push(temp3);
+			theatreid.push(temp4);
+			theatre.push(temp5);
+		}
 	});
-	var array = [title, rating, genre, description, director, topcast];
+	var array = [title, rating, genre, description, director, topcast, showtime, theatreid, theatre];
 	if (title.length === 25) {
 		displayRecPosters(array);
 	}
