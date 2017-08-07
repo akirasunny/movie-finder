@@ -36,17 +36,20 @@ function signin() {
 	username = capitalize($("#username").val().trim());
 	console.log(username);
 	zipcode = $("#zip-code").val().trim();
-	console.log(zipcode);
+	localStorage.zipcode = zipcode;
+	localStorage.username = username;
+	console.log(localStorage.zipcode);
 	database.ref().push({
 		name: username,
 		zipcode: zipcode
 
 	})
 	$("#signInModal").modal("hide");
-	database.ref().on("child_added", function(snap, prekey) {
+	database.ref().on("child_added", function(snap) {
 		userkey = snap.key;
 		localStorage.userkey = userkey;
 	})
+	isexist = true;
 	console.log(userkey);
 }
 
@@ -186,33 +189,37 @@ function displayPosters(posterArray, movieInfo) {
 $(document).ready(function() {
 	database.ref().on("value", function(snap) {
 		var checker = snap.val();
+		var localexists = localStorage.userkey;
+		console.log(checker);
+		console.log(localexists);
 		if (checker === null) {
 			isexist = false;
 			$("#signInModal").modal('show');
 		}
 		else if (checker !== null) {
-			database.ref().on("child_added", function(snap, prekey) {
-				var key = snap.key;
-				if (key === localStorage.userkey) {
-					isexist = true;
-					username = snap.val().name;
-					zipcode = snap.val().zipcode;
-					$("#signInModal").modal('hide');
-					// localkeywords = snap.val().whitelist;
-					// var index = Math.floor(Math.random() * localkeywords.length);
-					// keyword(localkeywords[index]);
-				}
-				else {
-					isexist = false;
-					$("#signInModal").modal('show');
-				}
-			})
+			if (localexists !== undefined) {
+				database.ref("/" + localStorage.userkey).once("value", function(snap) {
+					var name = snap.name;
+					if (name === username) {
+						isexist = true;
+						username = snap.val().name;
+						zipcode = snap.val().zipcode;
+						$("#signInModal").modal('hide');
+					}
+					else {
+						isexist = false;
+						$("#signInModal").modal('show');
+					}
+				})
+			}
+			else {
+				$("#signInModal").modal('show');
+			}
 		}
 	})
 	//instructions and submit button
 	$("#instructions").hide();
 	$("#submitPreferences").hide();
-
 })
 
 $("#signin").click(signin);
