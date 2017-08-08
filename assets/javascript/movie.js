@@ -102,6 +102,8 @@ function returning() {
 
 function keyword(event) 
 {
+	infoArray = [];
+	posterArray = [];
 	event.preventDefault();
 	var keyword = $("#user-keyword-input").val().trim();
 	//console.log(keyword);
@@ -191,6 +193,8 @@ function secondAjax2(movies,i,poster,info)
 
 // grab movies around 5 miles of user's zipcode
 function zip() {
+	infoArray = [];
+	posterArray = [];
 	var apikey = "qch9d85z74abhfkv9bt23t5g";
 	var baseUrl = "http://data.tmsapi.com/v1.1";
 	var showtimesUrl = baseUrl + '/movies/showings';
@@ -366,8 +370,6 @@ function displayPosters(poster, info)
     		}
     		flag = false;
     	}
-    	//infoArray = [];
-    	//posterArray = [];
     	
 	}
 	//$("#user-keyword-btn").click(keyword);
