@@ -22,8 +22,10 @@ var isexist = false;
 var zipcode;
 var username;
 var userkey;
-
-
+var compatObject = {
+	stuff: 5
+};
+var objectStorage;
 // functions
 
 // format input
@@ -67,13 +69,17 @@ function signin() {
 			database.ref().push({
 				name: username,
 				zipcode: zipcode
-			})
+			});
 			database.ref().once("child_added", function(snap) {
+				console.log(snap.val());
 				if (username === snap.val().name) {
 					localStorage.userkey = snap.key;
 					userkey = snap.key;
 				}
-			})
+				objectStorage = database.ref("/"+localStorage.userkey);
+				console.log(objectStorage);
+				upload();
+			});
 			isexist = true;
 			$("#signInModal").modal("hide");
 		}
@@ -284,23 +290,28 @@ function displayPosters(poster, info)
 
 		//console.log("clicked on", $(this).attr("value"));
 		//console.log(movieInfo[poster_array_value]);
-		var good_movie_formatted = format(movieInfo[poster_array_value]);
+		var good_movie_formatted = format(infoArray[poster_array_value]);
 		//console.log("good movie ", good_movie_formatted);
 		changeScores(good_movie_formatted, "good");
 
+		//will remove poster, but format is messed up
+		$("#poster"+poster_array_value).remove();
 	});
+
 	$(".badMovie").on("click", function() {
 
 		// get position in the array of poster clicked
 		var poster_array_value = $(this).attr("value");
 		console.log(poster_array_value);
 
-		console.log("clicked on", $(this).attr("value"));
-		console.log(movieInfo[poster_array_value]);
-		var bad_movie_formatted = format(movieInfo[poster_array_value]);
+		//console.log("clicked on", $(this).attr("value"));
+		//console.log(infoArray[poster_array_value]);
+		var bad_movie_formatted = format(infoArray[poster_array_value]);
 		//console.log("bad movie ", good_movie_formatted);
 		changeScores(bad_movie_formatted, "bad");
 
+		//same as in .goodMovie
+		$("#poster"+poster_array_value).remove();
 	});
 }
 
@@ -335,11 +346,17 @@ $(document).ready(function() {
 				$("#signInModal").modal('show');
 			}
 		}
-	})
+	});
+
+	$("#submitPreferences").click(function()
+	{
+		updateObject();
+	});
+
 	//instructions and submit button
 	$("#instructions").hide();
 	$("#submitPreferences").hide();
-})
+});
 
 $("#signin").click(signin);
 

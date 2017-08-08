@@ -163,7 +163,6 @@ function changeScores(movieArray, vote)
 		  //console.log(compatObject);
 		});
 	}
-
 }
 
 
