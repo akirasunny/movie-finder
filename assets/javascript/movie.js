@@ -298,7 +298,7 @@ function displayPosters(poster, info)
 
 		//console.log("clicked on", $(this).attr("value"));
 		//console.log(movieInfo[poster_array_value]);
-		var good_movie_formatted = format(movieInfo[poster_array_value]);
+		var good_movie_formatted = format(infoArray[poster_array_value]);
 		//console.log("good movie ", good_movie_formatted);
 		changeScores(good_movie_formatted, "good");
 
@@ -310,8 +310,8 @@ function displayPosters(poster, info)
 		console.log(poster_array_value);
 
 		console.log("clicked on", $(this).attr("value"));
-		console.log(movieInfo[poster_array_value]);
-		var bad_movie_formatted = format(movieInfo[poster_array_value]);
+		console.log(infoArray[poster_array_value]);
+		var bad_movie_formatted = format(infoArray[poster_array_value]);
 		//console.log("bad movie ", good_movie_formatted);
 		changeScores(bad_movie_formatted, "bad");
 

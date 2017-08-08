@@ -20,39 +20,53 @@ function format(newArray)
 	formattedArray = [];
 	for (var i = 0; i < newArray.length; i++) 
 	{
-		var space = new RegExp(" ");
-		var dash = new RegExp("-");
-		var period = new RegExp(".");
+		//var space = new RegExp(" ");
+		//var dash = new RegExp("-");
+		//var period = new RegExp(".");
 		slicedArray = newArray.slice(i,i+1);
 		var newString = slicedArray[0];
 		var wordArray = newString.split(", ");
 		for (var j = 0; j < wordArray.length; j++) 
 		{
-			if(space.test(wordArray[j]))
-			{
-				var underScore = wordArray[j].replace(/ /g, "_");
-				formattedArray = formattedArray.concat(underScore);
-			}
-			else if(dash.test(wordArray[j]))
-			{
-				var noDash = wordArray[j].replace(/-/g, "_");
-				formattedArray = formattedArray.concat(noDash);
-			}
-			else if(period.test(wordArray[j]))
-			{
-				var noPeriod = wordArray[j].replace(/\./g, "_");
-				formattedArray = formattedArray.concat(noPeriod);
-			}
-			else
-			{
-				formattedArray = formattedArray.concat(wordArray[j]);
-			}
+			var underScore = wordArray[j].replace(/ /g, "_");
+			var noPeriod = underScore.replace(/\./g, "_");
+			var noDash = noPeriod.replace(/-/g, "_");
+			var noSlash = noDash.replace(/\//g, "_");
+			formattedArray = formattedArray.concat(noSlash);
+			//if(space.test(wordArray[j]))
+			//{
+			//	var underScore = wordArray[j].replace(/ /g, "_");
+			//	formattedArray = formattedArray.concat(underScore);
+			//}
+			//else if(period.test(wordArray[j]) && space.test(wordArray[j]))
+			//{
+			//	var noPeriod = wordArray[j].replace(/\./g, "_");
+			//	var underScore = noPeriod.replace(/ /g, "_");
+			//	formattedArray = formattedArray.concat(underScore);
+			//}
+			//else if(dash.test(wordArray[j]))
+			//{
+			//	var noDash = wordArray[j].replace(/-/g, "_");
+			//	formattedArray = formattedArray.concat(noDash);
+			//}
+			//else if(period.test(wordArray[j]))
+			//{
+			//	//console.log("in format"+wordArray[j]);
+			//	var noPeriod = wordArray[j].replace(/\./g, "_");
+			//	//console.log(noPeriod);
+			//	formattedArray = formattedArray.concat(noPeriod);
+			//}
+			//else
+			//{
+			//	formattedArray = formattedArray.concat(wordArray[j]);
+			//}
 		}
 	}
 	for (var i = 0; i < formattedArray.length; i++) 
 	{
 		formattedArray[i] = formattedArray[i].toLowerCase();
 	}
+	console.log(formattedArray);
 	return formattedArray;
 }	
 
@@ -140,7 +154,7 @@ function changeScores(movieArray, vote)
 					compatObject[movieArray[i]] = value;
 		  		}
 		  	}
-		  //console.log(compatObject);
+		  console.log(compatObject);
 		});
 		updateObject();
 	}
@@ -158,7 +172,7 @@ function changeScores(movieArray, vote)
 					compatObject[movieArray[i]] = value;
 		  		}
 		  	}
-		  //console.log(compatObject);
+		  console.log(compatObject);
 		});
 		updateObject();
 	}
