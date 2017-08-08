@@ -139,37 +139,62 @@ function secondAjax(movies,i,poster,info)
 	});
 }
 
-function secondAjax2(movies,i,poster = []) {
-
-	//event.preventDefault();
-	console.log(i, movies.length);
-
+function secondAjax2(movies,i,poster,info)
+{
+	console.log(movies.length);
+	console.log(i);
 	if(i === movies.length)
 	{
-		displayPosters(posterInTheatresArray, infoInTheatresArray);
+		displayPosters(posterArray,infoArray);
 		return;
 	}
 
 	var title = movies[i];
-	//console.log("title ", title);
-
+	console.log(movies[i]);
 	$.ajax({
 		url: "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=40e9cece",
 		method: "GET"
 	}).done(function(response)
 	{
-		posterInTheatresArray.push(response.Poster);
-		console.log("posterInTheatresArray ", posterInTheatresArray);
-		getInTheatresPosters(movies,++i,posterInTheatresArray);
+		var subarray= [];
+		subarray.push(response.Genre, response.Director, response.Rated, response.imdbRating);
+		posterArray.push(response.Poster);
+		infoArray.push(subarray);
+		secondAjax2(movies,++i,posterArray,infoArray);
 	});
 }
 
+//function secondAjax2(movies,i,poster = []) {
+//
+//	//event.preventDefault();
+//	console.log(i, movies.length);
+//
+//	if(i === movies.length)
+//	{
+//		displayPosters(posterInTheatresArray, infoInTheatresArray);
+//		return;
+//	}
+//
+//	var title = movies[i];
+//	//console.log("title ", title);
+//
+//	$.ajax({
+//		url: "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=40e9cece",
+//		method: "GET"
+//	}).done(function(response)
+//	{
+//		posterInTheatresArray.push(response.Poster);
+//		console.log("posterInTheatresArray ", posterInTheatresArray);
+//		//getInTheatresPosters(movies,++i,posterInTheatresArray);
+//	});
+//}
+
 // grab movies around 5 miles of user's zipcode
 function zip() {
-	var apikey = "ac9ryrxhdhyueujdqgayzn4f";
+	var apikey = "qch9d85z74abhfkv9bt23t5g";
 	var baseUrl = "http://data.tmsapi.com/v1.1";
 	var showtimesUrl = baseUrl + '/movies/showings';
-	var zipCode = zipcode;
+	var zipCode = localStorage.zipcode;
 	var d = new Date();
 	var today = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
 	$.ajax({
@@ -180,7 +205,12 @@ function zip() {
 		api_key: apikey
 		},
 		dataType: "jsonp",
-	}).done()
+	}).done(function(response)
+	{
+		var movies = response.title;
+		console.log(movies);
+		secondAjax(movies,0);
+	});
 }
 
 function dataHandler(data) {
@@ -268,7 +298,12 @@ function dataHandler(data) {
 	
 	if (data.length === title.length)
 	{
-		secondAjax2(title,0)
+		console.log("I'm here");
+		console.log(title);
+		var movies = title;
+		//console.log(movies);
+		secondAjax2(movies,0);
+		//secondAjax2(title,0)
 		//getInTheatresPosters(title,0);
 		//displayRecData(api2array);
 	}
@@ -308,9 +343,9 @@ function displayPosters(poster, info)
 			//moviePoster.prepend($("<div>").attr("class", "row"));
 			rows += 4;	
 		}
-
+		console.log(newPoster[i]);
 		// if img src isn't empty, show on main page
-		if (newPoster[i] !== "N/A")
+		if (newPoster[i] !== "N/A" || newPoster[i] !== undefined || newPoster[i] !== "")
 		{
 			// if img src doesn't match a previously loaded img src - to avoid dupes
 			for (var j = 0; j < i; j++)
@@ -319,7 +354,6 @@ function displayPosters(poster, info)
 				{
 					flag = true;
 					poster_row--;
-    			
     			}
     		}
     		// no dupes found
@@ -332,6 +366,8 @@ function displayPosters(poster, info)
     		}
     		flag = false;
     	}
+    	infoArray = [];
+    	posterArray = [];
     	
 	}
 	//$("#user-keyword-btn").click(keyword);
@@ -411,4 +447,8 @@ $("#signin").click(signin);
 
 $("#user-keyword-btn").click(keyword);
 
-$("#movies-near-user-btn").click(zip);
+$("#movies-near-user-btn").click(function(event)
+	{
+		event.preventDefault();
+		zip(localStorage.zipcode);
+	});
