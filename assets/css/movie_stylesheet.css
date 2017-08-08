@@ -11,6 +11,16 @@ body {
 	background: linear-gradient(135deg, #4a148c 0%,#000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4a148c', endColorstr='#000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
+.user-logout {
+	margin-top: 20px;
+	color: #7c43bd;
+}
+#logout:link, #logout:visited {
+	color: #7c43bd;
+}
+#logout:hover, #logout:active, #logout:focus {
+	color: #9162e4;
+}
 .container {
 	font-family: 'Roboto Condensed', sans-serif;
 	font-size: 20px;
