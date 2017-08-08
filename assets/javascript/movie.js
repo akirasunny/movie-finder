@@ -412,4 +412,3 @@ $("#signin").click(signin);
 $("#user-keyword-btn").click(keyword);
 
 $("#movies-near-user-btn").click(zip);
->>>>>>> correct_branch
