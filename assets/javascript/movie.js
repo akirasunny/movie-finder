@@ -366,8 +366,8 @@ function displayPosters(poster, info)
     		}
     		flag = false;
     	}
-    	infoArray = [];
-    	posterArray = [];
+    	//infoArray = [];
+    	//posterArray = [];
     	
 	}
 	//$("#user-keyword-btn").click(keyword);
