@@ -37,7 +37,6 @@ function capitalize(a) {
 	return final;
 }
 
-
 // database related
 function signin() {
 	var username = capitalize($("#username").val().trim());
@@ -51,14 +50,13 @@ function signin() {
 		var keys = Object.keys(snappy);
 		var counter = 0;
 		for (i = 0; i < keys.length; i++) {
-			console.log(snappy[keys[i]]);
-			console.log(keys[i]);
 			if (snappy[keys[i]].name === username) {
 				localStorage.userkey = keys[i];
 				userkey = keys[i];
 				isexist = true;
 				counter++;
 				$("#signInModal").modal("hide");
+				returning();
 				break;
 			}
 		}
@@ -68,23 +66,36 @@ function signin() {
 				name: username,
 				zipcode: zipcode
 			})
-			database.ref().once("child_added", function(snap) {
+			database.ref().on("child_added", function(snap) {
 				if (username === snap.val().name) {
 					localStorage.userkey = snap.key;
 					userkey = snap.key;
+					isexist = true;
 				}
 			})
-			isexist = true;
 			$("#signInModal").modal("hide");
+			$("#welcome, #logout").css("display", "block");
+
 		}
 	})
 }
 
 function logout() {
-	localStorage.removeItem("userkey", "username", "zipcode");
-	location.reload();
+	localStorage.removeItem("userkey");
+	localStorage.removeItem("username");
+	localStorage.removeItem("zipcode");
+	$("#welcome, #logout").css("display", "none");
+	isexist = false;
+	$("#signInModal").modal("show");
 }
 
+function returning() {
+	if (localStorage.username !== undefined) {
+		$("#welcome, #logout").css("display", "block");
+		$("#ifback").html("Welcome back");
+		$("#user-name").html(localStorage.username);
+	}
+}
 
 
 function keyword(event) 
@@ -341,6 +352,12 @@ $(document).ready(function() {
 	$("#submitPreferences").hide();
 })
 
+$("#logout").css("display", "none");
+
+returning();
+
+$("#logout").click(logout);
+
 $("#signin").click(signin);
 
-$("#user-keyword-btn").click(keyword);//
+$("#user-keyword-btn").click(keyword);
