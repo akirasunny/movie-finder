@@ -108,7 +108,7 @@ function keyword(event)
 	event.preventDefault();
 	var keyword = $("#user-keyword-input").val().trim();
 	//console.log(keyword);
-	var queryURL = "http://www.omdbapi.com/?s=" + keyword + "&y=&plot=short&apikey=40e9cece";
+	var queryURL = "https://www.omdbapi.com/?s=" + keyword + "&y=&plot=short&apikey=40e9cece";
 
 	$.ajax({
 		url: queryURL,
@@ -130,7 +130,7 @@ function secondAjax(movies,i,poster,info)
 
 	var title = movies[i].Title;
 	$.ajax({
-		url: "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=40e9cece",
+		url: "https://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=40e9cece",
 		method: "GET"
 	}).done(function(response)
 	{
@@ -155,7 +155,7 @@ function secondAjax2(movies,i,poster,info)
 	var title = movies[i];
 	console.log(movies[i]);
 	$.ajax({
-		url: "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=40e9cece",
+		url: "https://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=40e9cece",
 		method: "GET"
 	}).done(function(response)
 	{
@@ -197,7 +197,7 @@ function zip() {
 	infoArray = [];
 	posterArray = [];
 	var apikey = "qch9d85z74abhfkv9bt23t5g";
-	var baseUrl = "http://data.tmsapi.com/v1.1";
+	var baseUrl = "https://data.tmsapi.com/v1.1";
 	var showtimesUrl = baseUrl + '/movies/showings';
 	var zipCode = localStorage.zipcode;
 	var d = new Date();
