@@ -75,6 +75,7 @@ function signin() {
 				}
 			});	
 		}
+
 			$("#signInModal").modal("hide");
 			$("#welcome, #logout").css("display", "block");
 

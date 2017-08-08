@@ -17,12 +17,14 @@ function upload() {
         if (snap.key !== "name" && snap.key !== "zipcode") 
         {
         	console.log(snap.key);
+
             localStorage.compatKey = compatKey;
         }
         console.log(compatKey);
     });
     console.log("im trying");
 	objectStorage.push(compatObject);
+
 }
 
 //updateObject() simply updates the object's properties with any new values.
