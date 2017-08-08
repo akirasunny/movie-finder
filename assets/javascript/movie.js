@@ -56,7 +56,7 @@ function signin() {
 					upload();
 				}
 			});
-			$("#ifback").html("Welcome");
+			$("#ifback").html("Welcome,");
 			$("#user-name").html(username);
 		}
 		}
@@ -76,10 +76,11 @@ function signin() {
 			});	
 		}
 
-			$("#signInModal").modal("hide");
-			$("#welcome, #logout").css("display", "block");
+		$("#signInModal").modal("hide");
+		$("#welcome, #logout").css("display", "block");
 
 		});
+	$("#sign-in").css("display", "none");
 }
 
 function logout() {
@@ -95,7 +96,7 @@ function logout() {
 function returning() {
 	if (localStorage.username !== undefined) {
 		$("#welcome, #logout").css("display", "block");
-		$("#ifback").html("Welcome back");
+		$("#ifback").html("Welcome back,");
 		$("#user-name").html(localStorage.username);
 	}
 }
@@ -440,12 +441,21 @@ $(document).ready(function() {
 })
 
 $("#logout").css("display", "none");
+$("#sign-in").css("display", "none");
 
 returning();
 
 $("#logout").click(logout);
 
 $("#signin").click(signin);
+
+$("#cancel").on("click", function() {
+	$("#sign-in").css("display", "block");
+})
+
+$("#sign-in").on("click", function() {
+	$("#signInModal").modal('show');
+})
 
 $("#user-keyword-btn").click(keyword);
 
