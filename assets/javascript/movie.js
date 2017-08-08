@@ -1,27 +1,8 @@
 // firebase & globals
 
-var config = {
-	apiKey: "AIzaSyAuUd9yt7ACd_Joi716u_UxYNLtf9oJMbc",
-	authDomain: "movie-finder-adc1a.firebaseapp.com",
-	databaseURL: "https://movie-finder-adc1a.firebaseio.com",
-	projectId: "movie-finder-adc1a",
-	storageBucket: "",
-	messagingSenderId: "599211651039"
-};
-	firebase.initializeApp(config);
-
-var database = firebase.database();
 
 
-//an array that stores movie properties like genre, director etc. 
-var infoArray = [];
-//poster is an array that stores poster url's
-var posterArray = [];
 
-var isexist = false;
-var zipcode;
-var username;
-var userkey;
 
 
 // functions
@@ -47,19 +28,20 @@ function signin() {
 
 	database.ref().once("value", function(snap) {
 		var snappy = snap.val();
-		var keys = Object.keys(snappy);
-		var counter = 0;
-		for (i = 0; i < keys.length; i++) {
-			if (snappy[keys[i]].name === username) {
-				localStorage.userkey = keys[i];
-				userkey = keys[i];
-				isexist = true;
-				counter++;
-				$("#signInModal").modal("hide");
-				returning();
-				break;
+		if (snappy !== undefined) {
+			var keys = Object.keys(snappy);
+			var counter = 0;
+			for (i = 0; i < keys.length; i++) {
+				if (snappy[keys[i]].name === username) {
+					localStorage.userkey = keys[i];
+					userkey = keys[i];
+					isexist = true;
+					counter++;
+					$("#signInModal").modal("hide");
+					returning();
+					break;
+				}
 			}
-		}
 
 		if (counter === 0 && isexist === false) {
 			database.ref().push({
@@ -71,19 +53,38 @@ function signin() {
 					localStorage.userkey = snap.key;
 					userkey = snap.key;
 					isexist = true;
+					upload();
 				}
+
 			})
+		}
+		}
+
+		else {
+			database.ref().push({
+				name: username,
+				zipcode: zipcode
+			})
+			database.ref().on("child_added", function(snap) {
+				if (username === snap.val().name) {
+					localStorage.userkey = snap.key;
+					userkey = snap.key;
+					isexist = true;
+					upload();
+				}
+			})	
+		}
 			$("#signInModal").modal("hide");
 			$("#welcome, #logout").css("display", "block");
 
-		}
-	})
+		})
 }
 
 function logout() {
 	localStorage.removeItem("userkey");
 	localStorage.removeItem("username");
 	localStorage.removeItem("zipcode");
+	localStorage.removeItem("compatKey");
 	$("#welcome, #logout").css("display", "none");
 	isexist = false;
 	$("#signInModal").modal("show");

@@ -145,6 +145,7 @@ function changeScores(movieArray, vote)
 		  	}
 		  //console.log(compatObject);
 		});
+		updateObject();
 	}
 	if (vote === "bad")
 	{
@@ -162,8 +163,8 @@ function changeScores(movieArray, vote)
 		  	}
 		  //console.log(compatObject);
 		});
+		updateObject();
 	}
-
 }
 
 

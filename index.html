@@ -127,9 +127,32 @@
     </div><!-- /.modal -->
 
     <!-- JavaScript -->
-    <script src="assets/javascript/movie.js"></script>
+    <script type="text/javascript">
+      var config = {
+        apiKey: "AIzaSyAuUd9yt7ACd_Joi716u_UxYNLtf9oJMbc",
+        authDomain: "movie-finder-adc1a.firebaseapp.com",
+        databaseURL: "https://movie-finder-adc1a.firebaseio.com",
+        projectId: "movie-finder-adc1a",
+        storageBucket: "",
+        messagingSenderId: "599211651039"
+      };
+        firebase.initializeApp(config);
+        var database = firebase.database();
+
+        //an array that stores movie properties like genre, director etc. 
+        var infoArray = [];
+        //poster is an array that stores poster url's
+        var posterArray = [];
+        var isexist = false;
+        var zipcode;
+        var username;
+        var userkey;
+        var compatObject = {};
+        var objectStorage;
+    </script>
     <script src="assets/javascript/filter.js"></script>
     <script src="assets/javascript/upload.js"></script>
+    <script src="assets/javascript/movie.js"></script>
   </body>
 
 </html>
