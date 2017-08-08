@@ -100,18 +100,15 @@ function keyword(event)
 	}).done(function(response)
 	{
 		var movies = response.Search;
-		//console.log(movies);
 		secondAjax(movies,0);
 	});	
 }
 
-function secondAjax(movies,i,poster = [],info = [])
+function secondAjax(movies,i,poster,info)
 {
 	if(i === movies.length)
 	{
-		console.log(poster);
-		console.log(info);
-		displayPosters(poster,info);
+		displayPosters(posterArray,infoArray);
 		return;
 	}
 
@@ -241,12 +238,17 @@ function displayRecPosters(array) {
 
 // display posters on main page
 // send voteup/votedown information to ??? function
-function displayPosters(posterArray, movieInfo) { 
-	compatObject = {
-		action: 0,
-		sci_fi: 0,
-		george_lucas: 0
-	};
+function displayPosters(poster, info) 
+{ 
+	//test object
+	//compatObject = {
+	//	action: -1,
+	//	sci_fi: 0,
+	//	george_lucas: 0,
+	//	jj_abrams: 0
+	//};
+
+	var newPoster = filter(poster, info);
 	// move search bar up
 	$("#initial-page").css("margin-top", "25px");
 
@@ -258,24 +260,21 @@ function displayPosters(posterArray, movieInfo) {
 
 	var rows = 0;
 
-	//var newPosterArray = filter(movieInfo,posterArray);
-
 	// loop through and dynamically place posters
-	for (var i = 0; i < posterArray.length; i++) {
-
-
+	for (var i = 0; i < newPoster.length; i++) 
+	{
 		// every 4 posters are placed in one row
-		if (rows === i){ 
+		if (rows === i)
+		{ 
 
 			var moviePoster = $("<div>").attr("class", "row poster-row");
 			//moviePoster.prepend($("<div>").attr("class", "row"));
 			rows += 4;	
 		}
 
-    	moviePoster.append($("<div id=\"poster"+i+"\" class=\"col-lg-2\" value="+i+"><img class=\"img-responsive\" src="+posterArray[i]+"><i class=\"fa fa-thumbs-o-up fa-lg goodMovie\" aria-hidden=\"true\" value="+i+"></i><i class=\"fa fa-thumbs-o-down fa-lg badMovie\" aria-hidden=\"true\" value="+i+"></i></div>"));
+    	moviePoster.append($("<div id=\"poster"+i+"\" class=\"col-lg-2\" value="+i+"><img class=\"img-responsive\" src="+newPoster[i]+"><i class=\"fa fa-thumbs-o-up fa-lg goodMovie\" aria-hidden=\"true\" value="+i+"></i><i class=\"fa fa-thumbs-o-down fa-lg badMovie\" aria-hidden=\"true\" value="+i+"></i></div>"));
     	moviePoster.append($("<div>").attr("class", "col-lg-1"));
     	$("#poster").append(moviePoster);
-
 	}
 	//$("#user-keyword-btn").click(keyword);
 	$(".goodMovie").on("click", function() {
