@@ -1,27 +1,8 @@
 // firebase & globals
 
-var config = {
-	apiKey: "AIzaSyAuUd9yt7ACd_Joi716u_UxYNLtf9oJMbc",
-	authDomain: "movie-finder-adc1a.firebaseapp.com",
-	databaseURL: "https://movie-finder-adc1a.firebaseio.com",
-	projectId: "movie-finder-adc1a",
-	storageBucket: "",
-	messagingSenderId: "599211651039"
-};
-	firebase.initializeApp(config);
-
-var database = firebase.database();
 
 
-//an array that stores movie properties like genre, director etc. 
-var infoArray = [];
-//poster is an array that stores poster url's
-var posterArray = [];
 
-var isexist = false;
-var zipcode;
-var username;
-var userkey;
 
 
 // functions
@@ -71,7 +52,9 @@ function signin() {
 					localStorage.userkey = snap.key;
 					userkey = snap.key;
 					isexist = true;
+					upload();
 				}
+
 			})
 			$("#signInModal").modal("hide");
 			$("#welcome, #logout").css("display", "block");
@@ -84,6 +67,7 @@ function logout() {
 	localStorage.removeItem("userkey");
 	localStorage.removeItem("username");
 	localStorage.removeItem("zipcode");
+	localStorage.removeItem("compatKey");
 	$("#welcome, #logout").css("display", "none");
 	isexist = false;
 	$("#signInModal").modal("show");
