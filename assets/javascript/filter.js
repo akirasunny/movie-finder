@@ -2,9 +2,6 @@
 //inside of the property is a number that is updated if the user liked or disliked. 
 //this is intended to be stored in firebase and referenced when users like or dislike movie. 
 //Need to still write one more function that actually changes score, but right now I don't have access to the database. 
-var compatObject = 
-{
-};
 
 //this is a test array modeled after the real arrays we will be receiving from ajax...
 var array = ["Action, Romance, Adventure, Action Movie", "James Cameron, Johnny Depp", "Sci-Fi", "pg-13", "8.5"];

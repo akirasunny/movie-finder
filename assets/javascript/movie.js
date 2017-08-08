@@ -32,7 +32,7 @@ function signin() {
 			var keys = Object.keys(snappy);
 			var counter = 0;
 			for (i = 0; i < keys.length; i++) {
-				if (snappy[keys[i]].name === username) {
+				if (snappy[keys[i]].name === username && snappy[keys[i]].zipcode === zipcode) {
 					localStorage.userkey = keys[i];
 					userkey = keys[i];
 					isexist = true;
@@ -47,7 +47,7 @@ function signin() {
 			database.ref().push({
 				name: username,
 				zipcode: zipcode
-			})
+			});
 			database.ref().on("child_added", function(snap) {
 				if (username === snap.val().name) {
 					localStorage.userkey = snap.key;
@@ -55,8 +55,9 @@ function signin() {
 					isexist = true;
 					upload();
 				}
-
-			})
+			});
+			$("#ifback").html("Welcome");
+			$("#user-name").html(username);
 		}
 		}
 
@@ -64,7 +65,7 @@ function signin() {
 			database.ref().push({
 				name: username,
 				zipcode: zipcode
-			})
+			});
 			database.ref().on("child_added", function(snap) {
 				if (username === snap.val().name) {
 					localStorage.userkey = snap.key;
@@ -72,12 +73,12 @@ function signin() {
 					isexist = true;
 					upload();
 				}
-			})	
+			});	
 		}
 			$("#signInModal").modal("hide");
 			$("#welcome, #logout").css("display", "block");
 
-		})
+		});
 }
 
 function logout() {
