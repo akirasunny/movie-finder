@@ -5,22 +5,26 @@
 //var format = format(testArray);
 //addToObject(format);
 
-
-
 //upload() can be used to upload any new objectStorage that might be created for any user.
 function upload() {
 	objectStorage = database.ref("/"+localStorage.userkey);
-    objectStorage.on("child_added", function(snap) {
+    objectStorage.on("child_added", function(snap) 
+    {
         compatKey = snap.key;
+       	console.log(compatKey);
         console.log("should be child: " + snap.key);
         //This is to be sure we get the right key, otherwise the name or zipcode can be saved in compatKey.
-        if (snap.key !== "name" && snap.key !== "zipcode") {
+        if (snap.key !== "name" && snap.key !== "zipcode") 
+        {
+        	console.log(snap.key);
+
             localStorage.compatKey = compatKey;
         }
         console.log(compatKey);
     });
     console.log("im trying");
-    objectStorage.push(compatObject);
+	objectStorage.push(compatObject);
+
 }
 
 //updateObject() simply updates the object's properties with any new values.

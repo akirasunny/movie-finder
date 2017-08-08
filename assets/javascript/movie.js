@@ -28,25 +28,26 @@ function signin() {
 
 	database.ref().once("value", function(snap) {
 		var snappy = snap.val();
-		var keys = Object.keys(snappy);
-		var counter = 0;
-		for (i = 0; i < keys.length; i++) {
-			if (snappy[keys[i]].name === username) {
-				localStorage.userkey = keys[i];
-				userkey = keys[i];
-				isexist = true;
-				counter++;
-				$("#signInModal").modal("hide");
-				returning();
-				break;
+		if (snappy !== undefined) {
+			var keys = Object.keys(snappy);
+			var counter = 0;
+			for (i = 0; i < keys.length; i++) {
+				if (snappy[keys[i]].name === username && snappy[keys[i]].zipcode === zipcode) {
+					localStorage.userkey = keys[i];
+					userkey = keys[i];
+					isexist = true;
+					counter++;
+					$("#signInModal").modal("hide");
+					returning();
+					break;
+				}
 			}
-		}
 
 		if (counter === 0 && isexist === false) {
 			database.ref().push({
 				name: username,
 				zipcode: zipcode
-			})
+			});
 			database.ref().on("child_added", function(snap) {
 				if (username === snap.val().name) {
 					localStorage.userkey = snap.key;
@@ -54,13 +55,31 @@ function signin() {
 					isexist = true;
 					upload();
 				}
+			});
+			$("#ifback").html("Welcome");
+			$("#user-name").html(username);
+		}
+		}
 
-			})
+		else {
+			database.ref().push({
+				name: username,
+				zipcode: zipcode
+			});
+			database.ref().on("child_added", function(snap) {
+				if (username === snap.val().name) {
+					localStorage.userkey = snap.key;
+					userkey = snap.key;
+					isexist = true;
+					upload();
+				}
+			});	
+		}
+
 			$("#signInModal").modal("hide");
 			$("#welcome, #logout").css("display", "block");
 
-		}
-	})
+		});
 }
 
 function logout() {
