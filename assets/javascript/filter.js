@@ -101,33 +101,26 @@ function makeScore(newArray)
 	return totalScore;
 }
 
-//this function is fairly straight forward it just looks at the score of the movie.
-//the intended implementation is to not let a poster be displayed on the page, if the score is too low. 
-//It is bare bones right now because I'm not sure exactly how posters/movies are being displayed on page. 
-function filter(movieInfo, posterArray)
+//filter takes an array of poster images and movie info. 
+//it makes a score out of the movie info and uses that score
+//to filter out various poster images.
+//it returns a filtered array of posters. 
+function filter(poster, info)
 {
-	var newPosterArray = [];
-	console.log("before for loop:"+posterArray);
+	//makes copy of array poster.
+	var newPosterArray = poster.slice(0);
 
-	for (var i = 0; i < posterArray.length; i++) 
+	var i = poster.length
+	while(i--)
 	{
-		formattedMovieInfo = format(movieInfo[i]);
-		//console.log("formattedMovieInfo: "+ formattedMovieInfo);
+		formattedMovieInfo = format(info[i]);
 		newScore = makeScore(formattedMovieInfo);
-		//console.log("newScore: "+ newScore);
 		if(newScore < 0)
 		{
-			console.log("I got called");
-			posterArray = posterArray.splice(i,1);
-		}
-		else
-		{
-			console.log("yeah");
-			console.log("after: " + posterArray);
+			newPosterArray.splice(i,1);
 		}
 	}
-	
-	return newPosterArray;
+	return newPosterArray
 }
 
 //TO DO 
