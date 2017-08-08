@@ -17,6 +17,8 @@ var database = firebase.database();
 var infoArray = [];
 //poster is an array that stores poster url's
 var posterArray = [];
+var posterInTheatresArray = [];
+var infoInTheatresArray = [];
 
 var isexist = false;
 var zipcode;
@@ -86,7 +88,6 @@ function logout() {
 }
 
 
-
 function keyword(event) 
 {
 	event.preventDefault();
@@ -123,6 +124,31 @@ function secondAjax(movies,i,poster,info)
 		posterArray.push(response.Poster);
 		infoArray.push(subarray);
 		secondAjax(movies,++i,posterArray,infoArray);
+	});
+}
+
+function secondAjax2(movies,i,poster = []) {
+
+	//event.preventDefault();
+	console.log(i, movies.length);
+
+	if(i === movies.length)
+	{
+		displayPosters(posterInTheatresArray, infoInTheatresArray);
+		return;
+	}
+
+	var title = movies[i];
+	//console.log("title ", title);
+
+	$.ajax({
+		url: "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=40e9cece",
+		method: "GET"
+	}).done(function(response)
+	{
+		posterInTheatresArray.push(response.Poster);
+		console.log("posterInTheatresArray ", posterInTheatresArray);
+		getInTheatresPosters(movies,++i,posterInTheatresArray);
 	});
 }
 
@@ -227,14 +253,15 @@ function dataHandler(data) {
 		}
 	});
 	var array = [title, rating, genre, description, director, topcast, showtime, theatreid, theatre];
-	if (title.length === 25) {
-		displayRecPosters(array);
+	
+	if (data.length === title.length)
+	{
+		secondAjax2(title,0)
+		//getInTheatresPosters(title,0);
+		//displayRecData(api2array);
 	}
 }
 
-function displayRecPosters(array) {
-	console.log(array);
-}
 
 // display posters on main page
 // send voteup/votedown information to ??? function
@@ -249,32 +276,51 @@ function displayPosters(poster, info)
 	//};
 
 	var newPoster = filter(poster, info);
-	// move search bar up
-	$("#initial-page").css("margin-top", "25px");
 
 	//instructions and submit button
 	$("#instructions").show();
-	$("#submitPreferences").show();
 
 	$("#poster").empty();
 
 	var rows = 0;
+	var flag = false;
 
 	// loop through and dynamically place posters
-	for (var i = 0; i < newPoster.length; i++) 
+	for (var poster_row = 0, i = 0; i < newPoster.length; i++, poster_row++) 
 	{
+		
 		// every 4 posters are placed in one row
-		if (rows === i)
+		if (rows === poster_row)
 		{ 
-
 			var moviePoster = $("<div>").attr("class", "row poster-row");
 			//moviePoster.prepend($("<div>").attr("class", "row"));
 			rows += 4;	
 		}
 
-    	moviePoster.append($("<div id=\"poster"+i+"\" class=\"col-lg-2\" value="+i+"><img class=\"img-responsive\" src="+newPoster[i]+"><i class=\"fa fa-thumbs-o-up fa-lg goodMovie\" aria-hidden=\"true\" value="+i+"></i><i class=\"fa fa-thumbs-o-down fa-lg badMovie\" aria-hidden=\"true\" value="+i+"></i></div>"));
-    	moviePoster.append($("<div>").attr("class", "col-lg-1"));
-    	$("#poster").append(moviePoster);
+		// if img src isn't empty, show on main page
+		if (newPoster[i] !== "N/A")
+		{
+			// if img src doesn't match a previously loaded img src - to avoid dupes
+			for (var j = 0; j < i; j++)
+			{
+				if (newPoster[i] === newPoster[j])
+				{
+					flag = true;
+					poster_row--;
+    			
+    			}
+    		}
+    		// no dupes found
+    		if (flag === false)
+    		{
+    			moviePoster.append($("<div id=\"poster"+i+"\" class=\"col-md-2 moviePoster\" value="+i+"><img src="+newPoster[i]+"><i class=\"fa fa-thumbs-o-up fa-lg goodMovie\" aria-hidden=\"true\" value="+i+"></i><i class=\"fa fa-thumbs-o-down fa-lg badMovie\" aria-hidden=\"true\" value="+i+"></i></div>"));
+
+    			$("#poster").append(moviePoster);
+
+    		}
+    		flag = false;
+    	}
+    	
 	}
 	//$("#user-keyword-btn").click(keyword);
 	$(".goodMovie").on("click", function() {
@@ -287,6 +333,8 @@ function displayPosters(poster, info)
 		var good_movie_formatted = format(movieInfo[poster_array_value]);
 		//console.log("good movie ", good_movie_formatted);
 		changeScores(good_movie_formatted, "good");
+
+		$("#poster"+poster_array_value).remove();
 
 	});
 	$(".badMovie").on("click", function() {
@@ -301,6 +349,7 @@ function displayPosters(poster, info)
 		//console.log("bad movie ", good_movie_formatted);
 		changeScores(bad_movie_formatted, "bad");
 
+		$("#poster"+poster_array_value).remove();
 	});
 }
 
@@ -338,9 +387,10 @@ $(document).ready(function() {
 	})
 	//instructions and submit button
 	$("#instructions").hide();
-	$("#submitPreferences").hide();
 })
 
 $("#signin").click(signin);
 
-$("#user-keyword-btn").click(keyword);//
+$("#user-keyword-btn").click(keyword);
+
+$("#movies-near-user-btn").click(zip);

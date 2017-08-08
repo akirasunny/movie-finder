@@ -26,20 +26,23 @@ body {
 	font-size: 20px;
 }
 #initial-page {
-	margin-top: 150px;
+	margin-top: 50px;
 }
 #prompt-user {
 	display: block;
 	margin-bottom: 20px;
 }
 #user-keyword-input {
-	width: 85%;
+	width: 75%;
 	float: left;
 	border-radius: 0;
 }
 .btn, #user-keyword-btn {
 	float: left;
 	border-radius: 0;
+}
+#movies-near-user-btn {
+	float: right;
 }
 .form-control {
 	border: none;
@@ -50,7 +53,7 @@ body {
     background-color: #7c43bd;
     border-color: #7c43bd;
 }
-.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
     color: #fff;
     background-color: #9162e4;
     border-color: #9162e4;
@@ -72,28 +75,24 @@ img {
 	padding: 25px;
 	font-size: 20px;
 }
-.poster-row {
-	margin: 30px 0;
+.poster-row { 
+	margin: 40px 0;
 }
 .col-lg-2, .col-lg-10 {
-	padding-right: 0;
-    padding-left: 0;
+	/*padding-right: 0;
+    padding-left: 0;*/
 }
 
-.fa { 
-	width: 50%;
-	padding: 15px 0;
-	text-align: center;
-}
+
 .fa, .fa:link, .fa:visited, #submitPreferences, #submitPreferences:link, #submitPreferences:visited  {
 	color: #fff;
     background-color: #7c43bd;
-    border-color: #7c43bd;
+    /*border-color: #7c43bd;*/
 }
 .fa:hover, .fa:active, .fa:focus, #submitPreferences:hover, #submitPreferences:active, #submitPreferences:focus {
 	color: #fff;
     background-color: #9162e4;
-    border-color: #9162e4;
+    /*border-color: #9162e4;*/
 }
 
 /********************* Modal *********************/
@@ -108,3 +107,65 @@ img {
 .modal-footer {
 	border-top: 0;
 }
+
+/* larger screens */
+@media screen and (min-width: 769px) {
+
+	.col-md-2 { 
+
+	}
+	.moviePoster {  
+		width: 25%;
+		/*height: 300px;*/
+
+	}
+	.moviePoster img { 
+		width: 200px;
+		height: 300px;
+		padding: 0 0px;
+	}
+	.fa { 
+		width: 100px;
+		padding: 15px 0;
+		text-align: center;
+	}
+
+}
+/* ipad width */
+@media screen and (max-width: 768px) {
+
+	.col-md-2 { 
+		width: 30%;
+	}
+
+	.moviePoster {  
+		width: 30%;
+		/*height: 300px;*/
+
+	}
+	.moviePoster img { 
+		width: 200px;
+		height: 300px;
+		padding: 0 0px;
+	}
+	.fa { 
+		width: 100px;
+		padding: 15px 0;
+		text-align: center;
+	}
+}
+/* Width at 375px and below iPhone5*/
+@media screen and (max-width: 375px) {
+	.moviePoster { 
+		width: 150px;
+		height: 225px;
+		padding: 0 20px;
+	}
+}
+/* Width at 320px and below iPhone5*/
+@media screen and (max-width: 320px) {
+}
+/* Width at 168px and below */
+@media screen and (max-width: 168px) {
+}	
+
