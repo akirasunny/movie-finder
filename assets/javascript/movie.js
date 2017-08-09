@@ -347,7 +347,7 @@ function displayPosters(poster, info)
 			//moviePoster.prepend($("<div>").attr("class", "row"));
 			rows += 4;	
 		}
-		console.log(newPoster[i]);
+		//console.log(newPoster[i]);
 		// if img src isn't empty, show on main page
 		if (newPoster[i] !== "N/A" || newPoster[i] !== undefined || newPoster[i] !== "")
 		{

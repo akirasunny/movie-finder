@@ -63,7 +63,7 @@ function addToObject(newArray)
 		}
 		if(counter === 0)
 		{
-			compatObject[newArray[i]] = 0;
+			compatObject[newArray[i]] = [0,0];
 		}
 	}
 }
@@ -79,7 +79,9 @@ function makeScore(newArray)
 	{
 		if(compatObject[newArray[i]] !== undefined)
 		{
-			totalScore += parseInt(compatObject[newArray[i]]);
+			var normalScore = (parseInt(compatObject[newArray[i]][0])/parseInt(compatObject[newArray[i]][1]));
+			console.log(normalScore);
+			totalScore += normalScore;
 		}
 	}	
 	return totalScore;
@@ -99,6 +101,7 @@ function filter(poster, info)
 	{
 		formattedMovieInfo = format(info[i]);
 		newScore = makeScore(formattedMovieInfo);
+		//console.log(newScore);
 		if(newScore < 0)
 		{
 			newPosterArray.splice(i,1);
@@ -123,8 +126,10 @@ function changeScores(movieArray, vote)
 			for(var i = 0; i < movieArray.length; i++){
 				if(key === movieArray[i])
 				{ 
-					value++;
-					compatObject[movieArray[i]] = value;
+					console.log(value);
+					var compatScore = value[0]+1;
+					var numTimes = value[1]+1;
+					compatObject[movieArray[i]] = [compatScore,numTimes];
 		  		}
 		  	}
 		  console.log(compatObject);
@@ -139,10 +144,12 @@ function changeScores(movieArray, vote)
 		$.each(compatObject, function(key, value) {
 
 			for(var i = 0; i < movieArray.length; i++){
+				console.log(value);
 				if(key === movieArray[i])
 				{ 
-					value--;
-					compatObject[movieArray[i]] = value;
+					var compatScore = value[0]-1;
+					var numTimes = value[1]+1;
+					compatObject[movieArray[i]] = [compatScore,numTimes];
 		  		}
 		  	}
 		  console.log(compatObject);
