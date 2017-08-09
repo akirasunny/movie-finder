@@ -101,7 +101,7 @@ function filter(poster, info)
 	{
 		formattedMovieInfo = format(info[i]);
 		newScore = makeScore(formattedMovieInfo);
-		//console.log(newScore);
+		console.log(newScore);
 		if(newScore < 0)
 		{
 			newPosterArray.splice(i,1);
@@ -135,6 +135,7 @@ function changeScores(movieArray, vote)
 		  console.log(compatObject);
 		});
 		updateObject();
+		retrieveObject();
 	}
 	if (vote === "bad")
 	{
@@ -155,6 +156,7 @@ function changeScores(movieArray, vote)
 		  console.log(compatObject);
 		});
 		updateObject();
+		retrieveObject();
 	}
 }
 
