@@ -407,6 +407,8 @@ function displayPosters(poster, info)
 //main 
  //this will determine if this is a first time or returning user
 $(document).ready(function() {
+	updateObject()
+	retrieveObject();
 	database.ref().on("value", function(snap) {
 		var checker = snap.val();
 		userkey = localStorage.userkey;

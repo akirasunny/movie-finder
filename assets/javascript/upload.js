@@ -23,8 +23,20 @@ function upload() {
 }
 
 //updateObject() simply updates the object's properties with any new values.
-function updateObject() {
+function updateObject() 
+{
     //ensures compatObject is located in proper spot. 
     var compatLocation = database.ref("/" + localStorage.userkey + "/" + localStorage.compatKey);
     compatLocation.update(compatObject);
+}
+
+function retrieveObject() 
+{
+	var compatLocation = database.ref("/" + localStorage.userkey + "/" + localStorage.compatKey);
+	compatLocation.on("value", function(snap)
+	{
+		compatObject = snap.val();
+		console.log(snap.val());
+	});
+
 }
