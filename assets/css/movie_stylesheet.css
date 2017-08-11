@@ -116,8 +116,18 @@ label {
 
 /********************* @ media *********************/
 /* larger screens */
-@media screen and (min-width: 769px) {
+@media screen and (min-device-width: 1025px) {
 
+	html {
+    	min-height: 100%;
+
+	}
+	body {
+	    height: 100%;
+	    margin: 0;
+	    background-repeat: no-repeat;
+	    background-attachment: fixed;
+	}
 	.moviePoster {  
 		width: 25%;
 		/*height: 300px;*/
@@ -135,18 +145,64 @@ label {
 	}
 
 }
-/* ipad width */
-@media screen and (max-device-width: 768px) {
+@media (min-device-width: 769px) and (max-device-width: 1024px) {
 
+	.col-md-2 { 
+		padding-right: 0;
+    	padding-left: 0;
+	}
 	html {
     	min-height: 100%;
 
 	}
 	body {
-	    /*height: 100%;
+	    height: 100%;
 	    margin: 0;
 	    background-repeat: no-repeat;
-	    background-attachment: fixed;*/
+	    background-attachment: fixed;
+	}
+	.form-group, #instructions {
+		width: 85%;
+		margin: 0 auto;
+	}
+	#instructions {
+		margin-top: 25px;
+	}
+	.moviePoster {  
+		width: 25%;
+		height: 300px;
+
+	}
+	.moviePoster img { 
+		width: 150px;
+		height: 225px;
+		padding: 0 0px;
+	}
+	.fa { 
+		width: 75px;
+		padding: 15px 0;
+		text-align: center;
+	}
+
+}
+
+/* ipad width */
+@media screen and (max-device-width: 768px) {
+
+	.col-md-2 { 
+		padding-right: 0;
+    	padding-left: 0;
+	}
+	/* html, body: lengthen background gradient with content */
+	html {
+    	min-height: 100%;
+
+	}
+	body {
+	    height: 100%;
+	    margin: 0;
+	    background-repeat: no-repeat;
+	    background-attachment: fixed;
 	}
 	.moviePoster {  
 		float: left;
@@ -164,12 +220,68 @@ label {
 		text-align: center;
 	}
 }
-/* iPhone6 width */
-@media screen and (max-device-width: 375px) {
+/* iphone6 width = 667, iphone5 = 568 */
+@media screen and (max-device-width: 667px) {
 
+	.col-md-2 { 
+		padding-right: 0;
+    	padding-left: 0;
+	}
+	/* html, body: lengthen background gradient with content */
 	html {
     	min-height: 100%;
+	}
+	body {
+	    height: 100%;
+	    margin: 0;
+	    background-repeat: no-repeat;
+	    background-attachment: fixed;
+	}
+	#instructions {
+		margin-bottom: 50px;
+	}
+	.poster-row { 
+		margin: 0;
+	}
+	.moviePoster { 
+		width: 50%;
+		height: 525px;
+		margin-bottom: 50px;
+	}
+	.moviePoster img { 
+		margin: 0 auto;
+		width: 300px;
+		height: 450px;
+		padding: 0;
+	}
+	.fa { 
+		float: left;
+		width: 150px;
+		padding: 25px 0;
+		text-align: center;
+	}
+
+}
+/* iPhone6 width */
+@media screen and (max-device-width: 414px) {
+
+	.col-md-2 { 
+		padding-right: 0;
+    	padding-left: 0;
+	}
+	/* html, body: lengthen background gradient with content */
+	html { 
+    	min-height: 100%;
 		font-size: 30px;
+	}
+	body {
+	    height: 100%;
+	    margin: 0;
+	    background-repeat: no-repeat;
+	    background-attachment: fixed;
+	}
+	.poster-row { 
+		margin: 0;
 	}
 	.container {
 		font-family: 'Roboto Condensed', sans-serif;
@@ -205,25 +317,37 @@ label {
 		margin-top: 30px;
 	}
 
-	.moviePoster {  
-		float: left;
+	.moviePoster { 
 		width: 50%;
-		margin-bottom: 30px;
+		height: 525px;
+		margin-bottom: 50px;
 	}
 	.moviePoster img { 
-		width: 250px;
-		height: 375px;
+		margin: 0 auto;
+		width: 300px;
+		height: 450px;
 	}
 	.fa { 
-		width: 125px;
+		width: 150px;
 		padding: 15px 0;
 		text-align: center;
 	}
 }
-/* Width at 320px and below iPhone5*/
+/* Width at 320px and below, iPhone5 portrait */
 @media screen and (max-width: 320px) {
+
+	/* html, body: lengthen background gradient with content */
+	html {
+    	min-height: 100%;
+
+	}
+	body {
+	    height: 100%;
+	    margin: 0;
+	    background-repeat: no-repeat;
+	    background-attachment: fixed;
+	}
 }
 /* Width at 168px and below */
 @media screen and (max-width: 168px) {
 }	
-
